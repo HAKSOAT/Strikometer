@@ -1,6 +1,6 @@
-from flask import Flask
+from flask import Flask, render_template
 from flask_bootstrap import Bootstrap
-from datetime import datetime as dt
+from flask_moment import Moment
 from config import config
 from apscheduler.schedulers.background import BackgroundScheduler
 import models
@@ -8,15 +8,17 @@ import atexit
 import scraper
 import populate_db
 import logging
+import requests
 
 app = Flask(__name__)
 
 app.config.from_object(config["development"])
 
 bootstrap = Bootstrap(app)
+moment = Moment(app)
 models.db.init_app(app)
 
-logging.basicConfig(filename='errors.log',level=logging.DEBUG)
+logging.basicConfig(filename='errors.log', level=logging.DEBUG)
 
 def scrape_news_in_background():
     try:
@@ -54,10 +56,11 @@ atexit.register(lambda: scheduler.shutdown())
 def index(number=None):
     news_details = models.News.query.all()
     if number:
-        return "Strikometer - {}".format(number)
+        a = "Strikometer - {}".format(number)
+        return render_template("index.html", news_details = news_details)
     else:
-        strike_start_date = "05/11/2018"
-        return "Strikometer"
+        "Strikometer"
+        return render_template("index.html")
 
 
 @app.route("/about")
