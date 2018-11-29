@@ -1,0 +1,86 @@
+{% extends "bootstrap/base.html" %}
+
+{% block title %} {{ page_title }} {% endblock %}
+
+{% block scripts %}
+    {{ moment.include_moment() }}
+    {{ moment.include_jquery() }}
+    <script src="{{url_for('static', filename='timeparser.js')}}"></script>
+{% endblock %}
+
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand" href="#">Strikometer</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="#">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="jumbotron text-center">
+          <span style="display:inline-block;"></span>
+        <h1>ASUU Strike Continues</h1>
+          <h1 class="counter">Sample</h1>
+        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
+        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+      </div>
+
+      <div class="row marketing">
+      {% if news_details|length > 0 and news_details|length < 4 %}
+        <div class="col-lg-6 col-md-offset-3 text-center">
+                {% for each in news_details[:3] %}
+                    <span style="display:inline-block;"></span>
+                  <h4><a href="{{ each.link }}" target="_blank">{{ each.title }}</a></h4>
+                    <h6>{{ moment(each.time).format('MMMM Do YYYY, h:mm:ss a') }}</h6>
+                  <p>{{ each.summary }}</p>
+                {% endfor %}
+
+        </div>
+          {% elif news_details|length > 3 %}
+          <div class="col-lg-6">
+                {% for each in news_details[:3] %}
+                    <span style="display:inline-block;"></span>
+                  <h4><a href="{{ each.link }}" target="_blank">{{ each.title }}</a></h4>
+                    <h6>{{ moment(each.time).format('MMMM Do YYYY, h:mm:ss a') }}</h6>
+                  <p>{{ each.summary }}</p>
+                {% endfor %}
+
+        </div>
+      {% endif %}
+      {% if news_details|length > 3 %}
+        <div class="col-lg-6">
+                {% for each in news_details[3:] %}
+                    <span style="display:inline-block;"></span>
+                  <h4><a href="{{ each.link }}" target="_blank">{{ each.title }}</a></h4>
+                    <h6>{{ moment(each.time).format('MMMM Do YYYY, h:mm:ss a') }}</h6>
+                  <p>{{ each.summary }}</p>
+                {% endfor %}
+
+        </div>
+      {% endif %}
+
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2016 Company, Inc.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+{% endblock %}
+
