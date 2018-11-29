@@ -28,7 +28,7 @@ class Vanguard(object):
 
     def get_summary(self):
         for article in self.ASUU_articles:
-            self.summary.append(article.find("div", {"class": "entry-content"}).text)
+            self.summary.append(article.find("div", {"class": "entry-content"}).text.split["Read more"][0])
 
     def get_links(self):
         for article in self.ASUU_articles:
@@ -69,7 +69,7 @@ class TheNation(object):
 
     def get_summary(self):
         for article in self.ASUU_articles:
-            self.summary.append(article.find("div", {"class": "archive-content"}).text)
+            self.summary.append(article.find("div", {"class": "archive-content"}).text.split["Read More"][0])
 
     def get_links(self):
         for article in self.ASUU_articles:
