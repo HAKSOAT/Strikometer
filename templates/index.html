@@ -3,8 +3,8 @@
 {% block title %} {{ page_title }} {% endblock %}
 
 {% block scripts %}
-    {{ moment.include_moment() }}
     {{ moment.include_jquery() }}
+    {{ moment.include_moment() }}
     <script src="{{url_for('static', filename='timeparser.js')}}"></script>
 {% endblock %}
 
@@ -18,11 +18,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">Strikometer</a>
+          <a class="navbar-brand" href="{{ url_for("index") }}">Strikometer</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav nav-pills pull-right">
-            <li role="presentation"><a href="#">About</a></li>
+            <li role="presentation"><a href="{{ url_for("about") }}">About</a></li>
             <li role="presentation"><a href="#">Contact</a></li>
           </ul>
         </div>
@@ -34,10 +34,8 @@
     <div class="container">
       <div class="jumbotron text-center">
           <span style="display:inline-block;"></span>
-        <h1>ASUU Strike Continues</h1>
-          <h1 class="counter">Sample</h1>
-        <p class="lead">Cras justo odio, dapibus ac facilisis in, egestas eget quam. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-lg btn-success" href="#" role="button">Sign up today</a></p>
+          <h1 class="counter">Loading counter...</h1>
+          <h3>...into the ASUU Strike</h3>
       </div>
 
       <div class="row marketing">
@@ -75,12 +73,17 @@
       {% endif %}
 
       </div>
+    <span style="display:inline-block; height: 50px"></span>
+    </div> <!-- /container -->
 
-      <footer class="footer">
-        <p>&copy; 2016 Company, Inc.</p>
+    {% block footer %}
+      <footer class="page-footer font-small blue navbar-default navbar-fixed-bottom">
+      <div class="footer-copyright text-center py-3">© 2018 Copyright: Made with ❤️ by
+        <a href="https://github.com/HAKSOAT"> HAKS</a>
+      </div>
       </footer>
 
-    </div> <!-- /container -->
+    {% endblock %}
 
 {% endblock %}
 
