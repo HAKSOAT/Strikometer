@@ -8,7 +8,6 @@ import models
 import atexit
 import scraper
 import populate_db
-import logging
 import requests
 import forms
 import mailer
@@ -22,7 +21,6 @@ moment = Moment(app)
 mailer.mail.init_app(app)
 models.db.init_app(app)
 
-logging.basicConfig(filename='errors.log', level=logging.DEBUG)
 
 def scrape_news_in_background():
     try:
@@ -46,7 +44,7 @@ def scrape_news_in_background():
         the_nation_populator.add_to_db()
 
     except requests.exceptions.ConnectionError:
-        logging.info("Requests error", exc_info=True)
+        print("Connection Error")
 
 
 scheduler = BackgroundScheduler()
