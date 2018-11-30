@@ -12,3 +12,12 @@ class News(db.Model):
 
     def __repr__(self):
         return "<{} : {}>".format(self.id, self.title)
+
+class Votes(db.Model):
+    __table__name = "Votes"
+    id = db.Column(db.Integer, primary_key=True)
+    upvote = db.Column(db.Boolean)
+    downvote = db.Column(db.Boolean)
+
+    def __repr__(self):
+        return "<{} : {}>".format(self.id, self.upvote, self.downvote)
