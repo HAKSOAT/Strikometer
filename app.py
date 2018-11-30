@@ -1,6 +1,7 @@
-from flask import Flask, render_template, abort
+from flask import Flask, render_template, abort, flash, redirect, url_for
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
+import os
 from config import config
 from apscheduler.schedulers.background import BackgroundScheduler
 import models
@@ -9,13 +10,16 @@ import scraper
 import populate_db
 import logging
 import requests
+import forms
+import mailer
 
 app = Flask(__name__)
 
-app.config.from_object(config["development"])
+app.config.from_object(config[os.environ["APP_CONFIG"]])
 
 bootstrap = Bootstrap(app)
 moment = Moment(app)
+mailer.mail.init_app(app)
 models.db.init_app(app)
 
 logging.basicConfig(filename='errors.log', level=logging.DEBUG)
@@ -55,6 +59,7 @@ atexit.register(lambda: scheduler.shutdown())
 @app.route("/<int:number>")
 def index(number=None):
     news_details = models.News.query.all()
+    sorted_news_details = sorted(news_details, key=lambda news: news.time, reverse=True)
     number_of_news_per_page = 6
     if number is not None and number > 1:
         if len(news_details) > number_of_news_per_page * (number - 1):
@@ -62,14 +67,14 @@ def index(number=None):
             page_articles_ending = number_of_news_per_page * (number)
             page_title = "Strikometer - {}".format(number)
             return render_template("index.html",
-                                   news_details=news_details[page_articles_beginning:page_articles_ending],
+                                   news_details=sorted_news_details[page_articles_beginning:page_articles_ending],
                                    page_title=page_title)
         else:
             abort(404)
     elif number is None or number == 1:
-        page_title="Strikometer"
-        return render_template("index.html", news_details=news_details[:number_of_news_per_page],
-                                   page_title=page_title)
+        page_title = "Strikometer"
+        return render_template("index.html", news_details=sorted_news_details[:number_of_news_per_page],
+                               page_title=page_title)
 
 
 @app.route("/about")
@@ -77,9 +82,15 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/contact")
+@app.route("/contact", methods=["GET", "POST"])
 def contact():
-    return "Strikometer - Contact"
+    form = forms.ContactForm()
+    if form.validate_on_submit():
+        flash("Thanks for reaching out.")
+        contact_mailer = mailer.Mailer(form.first_name.data, form.last_name.data, form.email.data, form.message.data)
+        contact_mailer.send_messages()
+        return redirect(url_for("index"))
+    return render_template("contact.html", form=form)
 
 
 @app.errorhandler(404)
