@@ -11,7 +11,7 @@ class Vanguard(object):
         self.links = []
         self.time = []
 
-        for page_number in range(1, 4):
+        for page_number in range(1, 40):
             self.get_ASUU_articles(page_number)
 
     def get_ASUU_articles(self, page_number):
@@ -52,7 +52,7 @@ class TheNation(object):
         self.links = []
         self.time = []
 
-        for page_number in range(1, 4):
+        for page_number in range(1, 40):
             self.get_ASUU_articles(page_number)
 
     def get_ASUU_articles(self, page_number):
