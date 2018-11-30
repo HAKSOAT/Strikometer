@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, abort
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 from config import config
@@ -55,23 +55,36 @@ atexit.register(lambda: scheduler.shutdown())
 @app.route("/<int:number>")
 def index(number=None):
     news_details = models.News.query.all()
-    if number:
-        a = "Strikometer - {}".format(number)
-        return render_template("index.html", news_details = news_details)
-    else:
-        "Strikometer"
-        return render_template("index.html")
+    number_of_news_per_page = 6
+    if number is not None and number > 1:
+        if len(news_details) > number_of_news_per_page * (number - 1):
+            page_articles_beginning = number_of_news_per_page * (number - 1)
+            page_articles_ending = number_of_news_per_page * (number)
+            page_title = "Strikometer - {}".format(number)
+            return render_template("index.html",
+                                   news_details=news_details[page_articles_beginning:page_articles_ending],
+                                   page_title=page_title)
+        else:
+            abort(404)
+    elif number is None or number == 1:
+        page_title="Strikometer"
+        return render_template("index.html", news_details=news_details[:number_of_news_per_page],
+                                   page_title=page_title)
 
 
 @app.route("/about")
 def about():
-    return "Strikometer - About"
+    return render_template("about.html")
 
 
 @app.route("/contact")
 def contact():
     return "Strikometer - Contact"
 
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html")
 
 
 if __name__ == '__main__':
