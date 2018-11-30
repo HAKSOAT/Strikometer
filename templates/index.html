@@ -5,7 +5,8 @@
 {% block scripts %}
     {{ moment.include_jquery() }}
     {{ moment.include_moment() }}
-    <script src="{{url_for('static', filename='timeparser.js')}}"></script>
+    <script src="{{url_for('static', filename='countup.js')}}"></script>
+    <script src="{{url_for('static', filename='dropdown.js')}}"></script>
 {% endblock %}
 
 {% block navbar %}
@@ -32,6 +33,7 @@
 
 {% block content %}
     <div class="container">
+    <span style="display:inline-block; height: 30px"></span>
       <div class="jumbotron text-center">
           <span style="display:inline-block;"></span>
           <h1 class="counter">Loading counter...</h1>
