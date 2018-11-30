@@ -1,4 +1,4 @@
-from flask import Flask, render_template, abort, flash, redirect, url_for
+from flask import Flask, render_template, abort, flash, redirect, url_for, session
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
 import os
@@ -56,12 +56,21 @@ scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
 
-@app.route("/")
-@app.route("/<int:number>")
+@app.route("/", methods = ["GET", "POST"])
+@app.route("/<int:number>", methods = ["GET", "POST"])
 def index(number=None):
     news_details = models.News.query.all()
     sorted_news_details = sorted(news_details, key=lambda news: news.time, reverse=True)
     number_of_news_per_page = 6
+    form = forms.FeedbackForm()
+
+    if form.validate_on_submit():
+        flash("Thanks for giving feedback")
+        votes = models.Votes(upvote=form.upvote.data, downvote=form.downvote.data)
+        models.db.session.add(votes)
+        models.db.session.commit()
+        return redirect(url_for("index"))
+
     if number is not None and number > 1:
         if len(news_details) > number_of_news_per_page * (number - 1):
             page_articles_beginning = number_of_news_per_page * (number - 1)
@@ -69,13 +78,14 @@ def index(number=None):
             page_title = "Strikometer - {}".format(number)
             return render_template("index.html",
                                    news_details=sorted_news_details[page_articles_beginning:page_articles_ending],
-                                   page_title=page_title)
+                                   page_title=page_title, form=form)
         else:
             abort(404)
     elif number is None or number == 1:
         page_title = "Strikometer"
         return render_template("index.html", news_details=sorted_news_details[:number_of_news_per_page],
-                               page_title=page_title)
+                               page_title=page_title, form=form)
+
 
 
 @app.route("/about")
