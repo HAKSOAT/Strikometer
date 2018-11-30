@@ -1,0 +1,20 @@
+{% extends "index.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+
+{% block title %} About {% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <span style="display:inline-block; height: 100px"></span>
+    {{ wtf.quick_form(form) }}
+    <span style="display:inline-block; height: 50px"></span>
+</div>
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}
