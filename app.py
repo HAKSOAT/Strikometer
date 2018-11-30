@@ -41,7 +41,8 @@ def scrape_news_in_background():
         vanguard_populator = populate_db.DBPopulate(vanguard.summary, vanguard.time, vanguard.links, vanguard.titles)
         vanguard_populator.add_to_db()
 
-        the_nation_populator = populate_db.DBPopulate(the_nation.summary, the_nation.time, the_nation.links, the_nation.titles)
+        the_nation_populator = populate_db.DBPopulate(the_nation.summary, the_nation.time, the_nation.links,
+                                                      the_nation.titles)
         the_nation_populator.add_to_db()
 
     except requests.exceptions.ConnectionError:
