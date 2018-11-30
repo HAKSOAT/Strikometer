@@ -49,17 +49,16 @@ def scrape_news_in_background():
         print("Connection Error")
 
 
-# scheduler = BackgroundScheduler()
-# scheduler.add_job(func=scrape_news_in_background, trigger="interval", seconds=360)
-# scheduler.start()
-#
-# atexit.register(lambda: scheduler.shutdown())
+scheduler = BackgroundScheduler()
+scheduler.add_job(func=scrape_news_in_background, trigger="interval", seconds=240)
+scheduler.start()
+
+atexit.register(lambda: scheduler.shutdown())
 
 
 @app.route("/")
 @app.route("/<int:number>")
 def index(number=None):
-    scrape_news_in_background()
     news_details = models.News.query.all()
     sorted_news_details = sorted(news_details, key=lambda news: news.time, reverse=True)
     number_of_news_per_page = 6
