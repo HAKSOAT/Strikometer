@@ -17,4 +17,5 @@ class DBPopulate(object):
                 else:
                     news = models.News(summary=summary, link=link, title=title, time=time)
                     models.db.session.add(news)
+                    print("New data")
                 models.db.session.commit()

@@ -24,12 +24,14 @@ models.db.init_app(app)
 
 def scrape_news_in_background():
     try:
+        print("Start")
         vanguard = scraper.Vanguard()
         vanguard.get_titles()
         vanguard.get_summary()
         vanguard.get_links()
         vanguard.get_post_times()
 
+        print("Half")
         the_nation = scraper.TheNation()
         the_nation.get_titles()
         the_nation.get_summary()
@@ -47,16 +49,17 @@ def scrape_news_in_background():
         print("Connection Error")
 
 
-scheduler = BackgroundScheduler()
-scheduler.add_job(func=scrape_news_in_background, trigger="interval", seconds=360)
-scheduler.start()
-
-atexit.register(lambda: scheduler.shutdown())
+# scheduler = BackgroundScheduler()
+# scheduler.add_job(func=scrape_news_in_background, trigger="interval", seconds=360)
+# scheduler.start()
+#
+# atexit.register(lambda: scheduler.shutdown())
 
 
 @app.route("/")
 @app.route("/<int:number>")
 def index(number=None):
+    scrape_news_in_background()
     news_details = models.News.query.all()
     sorted_news_details = sorted(news_details, key=lambda news: news.time, reverse=True)
     number_of_news_per_page = 6
