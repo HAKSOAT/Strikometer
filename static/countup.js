@@ -1,9 +1,3 @@
-let flasktime = document.querySelectorAll(".flask-moment");
-for (let each = 0; each < flasktime.length; each++) {
-    flasktime[each].textContent = moment(flasktime[each].innerText).format('MMMM Do YYYY, h:mm:ss a');
-    flasktime[each].setAttribute("style","display: inline;");
-};
-
 let startDate = new Date("Nov 5, 2018 00:00:00").getTime();
 
 function counter() {

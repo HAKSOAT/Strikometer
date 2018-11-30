@@ -1,0 +1,49 @@
+{% extends "index.html" %}
+
+{% block title %} About {% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <span style="display:inline-block; height: 50px"></span>
+        <div class="vertical-center horizontal-center">
+        <div class="col-md-12">
+            <h1><b>ASUU</b></h1>
+            <p>The Academic Staff Union of Universities (ASUU) is a Nigerian union of university academic staff, founded in 1978.</p>
+
+            <h1><b>Reasons For Current Strike Action</b></h1>
+            <p>The ASUU commenced on an indefinite strike on the 5th of November 2018 due to issues of poor funding.
+                <br>
+                The National President of ASUU, Professor Abiodun Ogunyemi, directed all members of the union across various universities to withdraw their services, stressing that the strike would be total and indefinite.
+            </p>
+            <h1><b>Writer</b></h1>
+            <b>Habeeb Kehinde Shopeju</b>
+            <br>
+            I am student of Electrical Electronics Engineering at the Federal University of Agriculture, Abeokuta (FUNAAB).
+            <br>
+            I have been coding since 2016, and have strong skills in Python, SQL, Linux.
+            <br>
+            I also have skills writing code in Java and JavaScript as a beginner.
+            <br>
+            <br>
+            Contact me:
+            <br>
+            <br>
+        <a href="https://web.facebook.com/shopeju.habeeb" target="_blank"><button style="font-size:15px">Connect <i class="fa fa-facebook"></i></button></a>
+        <a href="https://github.com/HAKSOAT" target="_blank"><button style="font-size:15px">Code <i class="fa fa-github"></i></button></a>
+            <a href="https://twitter.com/HAKSOAT" target="_blank"><button style="font-size:15px">Tweet <i class="fa fa-twitter"></i></button></a>
+            <a href="https://linkedin.com/in/habeebshopeju" target="_blank"><button style="font-size:15px">Network <i class="fa fa-linkedin"></i></button></a>
+        </div>
+    </div>
+    </div>
+<span style="display:inline-block; height: 50px"></span>
+</div>
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}
