@@ -1,4 +1,5 @@
 import requests
+import re
 from bs4 import BeautifulSoup as bs
 from datetime import datetime
 
@@ -28,7 +29,9 @@ class Vanguard(object):
 
     def get_summary(self):
         for article in self.ASUU_articles:
-            self.summary.append(article.find("div", {"class": "entry-content"}).text.split["Read more"][0])
+            unparsed_summary = article.find("div", {"class": "entry-content"}).text
+            parsed_summary = re.split(r"[Rr]ead [Mm]ore", unparsed_summary)[0]
+            self.summary.append(parsed_summary)
 
     def get_links(self):
         for article in self.ASUU_articles:
@@ -52,7 +55,7 @@ class TheNation(object):
         self.links = []
         self.time = []
 
-        for page_number in range(1, 40):
+        for page_number in range(1, 41):
             self.get_ASUU_articles(page_number)
 
     def get_ASUU_articles(self, page_number):
@@ -69,7 +72,9 @@ class TheNation(object):
 
     def get_summary(self):
         for article in self.ASUU_articles:
-            self.summary.append(article.find("div", {"class": "archive-content"}).text.split["Read More"][0])
+            unparsed_summary = article.find("div", {"class": "archive-content"}).text
+            parsed_summary = re.split(r"[Rr]ead [Mm]ore", unparsed_summary)[0]
+            self.summary.append(parsed_summary)
 
     def get_links(self):
         for article in self.ASUU_articles:
