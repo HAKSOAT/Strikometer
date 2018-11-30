@@ -1,0 +1,28 @@
+{% extends "index.html" %}
+
+{% block title %} Page Not Found {% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <span style="display:inline-block; height: 100px"></span>
+        <div class="text-center vertical-center horizontal-center">
+        <div class="col-md-12">
+            <div class="error-template">
+                <h1>
+                    Oops!</h1>
+                <h2><i>There is nothing on this side of the internet</i></h2>
+                <div class="error-actions">
+                    <span style="display:inline-block; height: 50px"></span>
+                    <a href="{{ url_for('index') }}" class="btn btn-success btn-lg"><span class="glyphicon glyphicon-home"></span>
+                        Go Home </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div>
+    {% block footer %}
+        {{ super() }}
+    {% endblock %}
+{% endblock %}
