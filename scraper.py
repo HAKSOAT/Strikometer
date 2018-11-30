@@ -12,7 +12,7 @@ class Vanguard(object):
         self.links = []
         self.time = []
 
-        for page_number in range(1, 100):
+        for page_number in range(1, 40):
             print(page_number)
             self.get_ASUU_articles(page_number)
 
