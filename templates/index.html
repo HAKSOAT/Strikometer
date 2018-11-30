@@ -24,7 +24,7 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav nav-pills pull-right">
             <li role="presentation"><a href="{{ url_for("about") }}">About</a></li>
-            <li role="presentation"><a href="#">Contact</a></li>
+            <li role="presentation"><a href="{{ url_for("contact") }}">Contact</a></li>
           </ul>
         </div>
       </div>
@@ -41,6 +41,14 @@
       </div>
 
       <div class="row marketing">
+
+
+      {%  for message in get_flashed_messages() %}
+          <div class="alert alert-success">
+          <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{ message }}
+            </div>
+      {% endfor %}
       {% if news_details|length > 0 and news_details|length < 4 %}
         <div class="col-lg-6 col-md-offset-3 text-center">
                 {% for each in news_details[:3] %}
