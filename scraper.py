@@ -83,7 +83,7 @@ class PremiumTimes(object):
             page = requests.get(link)
             parsed_page = bs(page.content, "html.parser")
             page_content = parsed_page.find("div", {"class": "entry-content manoj single-add-content"})
-            paragraphs_tags = " ".join(page_content.find_all("p")[:2])
+            paragraphs_tags = page_content.find_all("p")[:2]
             paragraph_text = [each.text for each in paragraphs_tags]
             parsed_summary = " ".join(paragraph_text)
             self.summary.append(parsed_summary)
