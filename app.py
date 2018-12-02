@@ -31,7 +31,7 @@ def scrape_news_in_background():
         vanguard.get_links()
         vanguard.get_post_times()
 
-        print("Half")
+        print("PremiumTimes")
         premiumtimes = scraper.PremiumTimes()
         premiumtimes.get_titles()
         premiumtimes.get_summary()
@@ -56,20 +56,24 @@ scheduler.start()
 atexit.register(lambda: scheduler.shutdown())
 
 
-@app.route("/", methods = ["GET", "POST"])
-@app.route("/<int:number>", methods = ["GET", "POST"])
+@app.route("/", methods=["GET", "POST"])
+@app.route("/<int:number>", methods=["GET", "POST"])
 def index(number=None):
     news_details = models.News.query.all()
     sorted_news_details = sorted(news_details, key=lambda news: news.time, reverse=True)
     number_of_news_per_page = 6
-    form = forms.FeedbackForm()
 
-    if form.validate_on_submit():
-        flash("Thanks for giving feedback")
-        votes = models.Votes(upvote=form.upvote.data, downvote=form.downvote.data)
-        models.db.session.add(votes)
-        models.db.session.commit()
-        return redirect(url_for("index"))
+    if "vote" in session.keys():
+        form = None
+    else:
+        form = forms.FeedbackForm()
+        if form.validate_on_submit():
+            session["vote"] = 1
+            flash("Thanks for giving feedback")
+            votes = models.Votes(upvote=form.upvote.data, downvote=form.downvote.data)
+            models.db.session.add(votes)
+            models.db.session.commit()
+            return redirect(url_for("index"))
 
     if number is not None and number > 1:
         if len(news_details) > number_of_news_per_page * (number - 1):

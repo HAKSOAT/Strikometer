@@ -13,7 +13,6 @@ class Vanguard(object):
         self.time = []
 
         for page_number in range(1, 3):
-            print(page_number)
             self.get_ASUU_articles(page_number)
 
     def get_ASUU_articles(self, page_number):
@@ -58,7 +57,6 @@ class PremiumTimes(object):
         self.time = []
 
         for page_number in range(1, 3):
-            print(page_number)
             self.get_ASUU_articles(page_number)
 
     def get_ASUU_articles(self, page_number):

@@ -86,6 +86,7 @@
       {% endif %}
 
       </div>
+    {% if form %}
     <span style="display:inline-block; height: 50px"></span>
         <div class="col-lg-6 col-md-offset-3 text-center">
 
@@ -93,6 +94,7 @@
             {{ wtf.quick_form(form) }}
 
         </div>
+    {% endif %}
     <span style="display:inline-block; height: 100px"></span>
     </div> <!-- /container -->
 
