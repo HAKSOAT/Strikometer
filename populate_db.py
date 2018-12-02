@@ -1,8 +1,16 @@
 import models
 import app
 
-class DBPopulate(object):
 
+class DBPopulate(object):
+    """
+    Object adds initialization parameters to the database
+
+    :params : summary --> String object
+                time --> Datetime object
+                link --> String object
+                title --> String object
+    """
     def __init__(self, summary, time, link, title):
         self.summary = summary
         self.time = time
@@ -11,7 +19,10 @@ class DBPopulate(object):
 
     def add_to_db(self):
         for summary, time, link, title in zip(self.summary, self.time, self.link, self.title):
+            # Activates the app context
+            # This needed to be able to access the database
             with app.app.app_context():
+                # Adds news to database only if link doesn't already exist
                 if models.News.query.filter(models.News.link == link).first():
                     continue
                 else:
