@@ -66,6 +66,8 @@ class PremiumTimes(object):
         parsed_page_content = bs(page_content, "html.parser")
         articles = parsed_page_content.find_all("div", {"class": "a-story"})
         for article in articles:
+            if len(article.find_all("a")[2].findChildren()) == 0:
+                continue
             if "asuu" in article.find_all("a")[2].find("h3").text.lower():
                 self.ASUU_articles.append(article)
 
