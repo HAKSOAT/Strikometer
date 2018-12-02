@@ -17,9 +17,9 @@ class Vanguard(object):
             self.get_ASUU_articles(page_number)
 
     def get_ASUU_articles(self, page_number):
-        page_content = requests.get("https://www.vanguardngr.com/news/page/{}".format(page_number)).content
-        parsed_page_content = bs(page_content, "html.parser")
-        articles = parsed_page_content.find_all("article")
+        page = requests.get("https://www.vanguardngr.com/news/page/{}".format(page_number)).content
+        parsed_page = bs(page, "html.parser")
+        articles = parsed_page.find_all("article")
         for article in articles:
             if "asuu" in article.find_all("a")[1].text.lower():
                 self.ASUU_articles.append(article)
@@ -47,7 +47,8 @@ class Vanguard(object):
             parsed_time = time.split("+")[0]
             self.time.append(datetime.strptime(parsed_time, time_format))
 
-class TheNation(object):
+
+class PremiumTimes(object):
 
     def __init__(self):
         self.ASUU_articles = []
@@ -61,26 +62,33 @@ class TheNation(object):
             self.get_ASUU_articles(page_number)
 
     def get_ASUU_articles(self, page_number):
-        page_content = requests.get("http://thenationonlineng.net/category/news-update/page/{}".format(page_number)).content
+        page_content = requests.get("https://www.premiumtimesng.com/category/news/page/{}".format(page_number)).content
         parsed_page_content = bs(page_content, "html.parser")
-        articles = parsed_page_content.find_all("article")
+        articles = parsed_page_content.find_all("div", {"class": "a-story"})
         for article in articles:
-            if "asuu" in article.find_all("a")[1].text.lower():
+            if "asuu" in article.find_all("a")[2].find("h3").text.lower():
                 self.ASUU_articles.append(article)
 
     def get_titles(self):
         for article in self.ASUU_articles:
-            self.titles.append(article.find("a").text)
+            self.titles.append(article.find_all("a")[2].find("h3").text)
 
     def get_summary(self):
-        for article in self.ASUU_articles:
-            unparsed_summary = article.find("div", {"class": "archive-content"}).text
-            parsed_summary = re.split(r"[Rr]ead [Mm]ore", unparsed_summary)[0]
+        self.get_links()
+        unique_links = set(self.links)
+        self.links = unique_links
+        for link in self.links:
+            page = requests.get(link)
+            parsed_page = bs(page.content, "html.parser")
+            page_content = parsed_page.find("div", {"class": "entry-content manoj single-add-content"})
+            paragraphs_tags = " ".join(page_content.find_all("p")[:2])
+            paragraph_text = [each.text for each in paragraphs_tags]
+            parsed_summary = " ".join(paragraph_text)
             self.summary.append(parsed_summary)
 
     def get_links(self):
         for article in self.ASUU_articles:
-            self.links.append(article.find("a")["href"])
+            self.links.append(article.find_all("a")[2]["href"])
 
     def get_post_times(self):
         for link in self.links:
@@ -90,4 +98,3 @@ class TheNation(object):
             time_format = "%Y-%m-%dT%H:%M:%S"
             parsed_time = time.split("+")[0]
             self.time.append(datetime.strptime(parsed_time, time_format))
-

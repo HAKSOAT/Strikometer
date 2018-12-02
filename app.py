@@ -24,7 +24,7 @@ models.db.init_app(app)
 
 def scrape_news_in_background():
     try:
-        print("Start")
+        print("Vanguard")
         vanguard = scraper.Vanguard()
         vanguard.get_titles()
         vanguard.get_summary()
@@ -32,18 +32,18 @@ def scrape_news_in_background():
         vanguard.get_post_times()
 
         print("Half")
-        the_nation = scraper.TheNation()
-        the_nation.get_titles()
-        the_nation.get_summary()
-        the_nation.get_links()
-        the_nation.get_post_times()
+        premiumtimes = scraper.PremiumTimes()
+        premiumtimes.get_titles()
+        premiumtimes.get_summary()
+        premiumtimes.get_links()
+        premiumtimes.get_post_times()
 
         vanguard_populator = populate_db.DBPopulate(vanguard.summary, vanguard.time, vanguard.links, vanguard.titles)
         vanguard_populator.add_to_db()
 
-        the_nation_populator = populate_db.DBPopulate(the_nation.summary, the_nation.time, the_nation.links,
-                                                      the_nation.titles)
-        the_nation_populator.add_to_db()
+        premiumtimes_populator = populate_db.DBPopulate(premiumtimes.summary, premiumtimes.time, premiumtimes.links,
+                                                      premiumtimes.titles)
+        premiumtimes_populator.add_to_db()
 
     except requests.exceptions.ConnectionError:
         print("Connection Error")
