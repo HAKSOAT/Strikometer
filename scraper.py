@@ -78,7 +78,7 @@ class PremiumTimes(object):
     def get_summary(self):
         self.get_links()
         unique_links = set(self.links)
-        self.links = unique_links
+        self.links = list(unique_links)
         for link in self.links:
             page = requests.get(link)
             parsed_page = bs(page.content, "html.parser")
