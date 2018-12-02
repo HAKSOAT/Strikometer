@@ -2,6 +2,7 @@
 
 Made by **Nigerian** students, for **Nigerian** students.
 Due to the nation's struggling education sector, frequent strike actions are held by different associations that make up the university.
+This is a way of making requests from the Federal Government.
 
 However, the one that tells the biggest toll on the students remains the ASUU (Academic Staff Union of Universities) strike action.
 
